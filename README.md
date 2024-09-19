@@ -95,9 +95,7 @@ end: ending time of speech in seconds
 text: transcribed text for speech during start and end  
 speaker: speaker of the text 
 
-#### voices_folder structure:  
 
-![voices_folder_structure](voices_folder_structure1.png)
 
 #### File and its purposs:
 
