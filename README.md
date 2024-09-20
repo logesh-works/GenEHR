@@ -23,6 +23,9 @@ on google colab run this to install CUDA dependencies:
 
 ### installation:
 ```
+!apt install libcublas11
+```
+```
 pip install -r requirments.txt
 ```
 ### To Run:
