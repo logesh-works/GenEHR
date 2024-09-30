@@ -42,17 +42,25 @@ def run_python_module(module, cwd):
     """Run a Python module from a given directory."""
     run_command(["python", "-m", module], shell=True)
 
+def create_voices_directory():
+    """Create a 'voices' directory if it doesn't exist."""
+    voices_dir = os.path.join(os.getcwd(), "voices")
+    if not os.path.exists(voices_dir):
+        os.makedirs(voices_dir)
+        print(f"Directory 'voices' created at {voices_dir}.")
+    else:
+        print(f"Directory 'voices' already exists at {voices_dir}.")
+
 def main():
     # Step 1: Install libcublas (only for Linux)
     install_libcublas()
+    
+    create_voices_directory()
 
-    # Step 2: Clone GenEHR repository
-    clone_repo("https://github.com/logesh-works/GenEHR", "GenEHR")
+    # Step 4: Install Python requirements for GenEHR
+    install_requirements("requirements.txt")
 
-    # Step 3: Install Python requirements for GenEHR
-    install_requirements("GenEHR/requirements.txt")
-
-    # Step 4: Clone NeMo repository, checkout the nemo-v2 branch, and run reinstall.sh
+    # Step 5: Clone NeMo repository, checkout the nemo-v2 branch, and run reinstall.sh
     clone_repo("https://github.com/AI4Bharat/NeMo.git", "NeMo")
     
     # Change directory to NeMo, checkout nemo-v2 branch and run reinstall.sh
@@ -68,11 +76,10 @@ def main():
     
     os.chdir("..")  # Return to the original directory
 
-    # Step 5: Download the checkpoint.nemo file
+    # Step 6: Download the checkpoint.nemo file
     download_file("https://objectstore.e2enetworks.net/indic-asr-public/indicConformer/ai4b_indicConformer_ta.nemo", "checkpoint.nemo")
 
-    # Step 6: Run the GenEHR Python module
-    os.chdir("GenEHR")
+    # Step 7: Run the GenEHR Python module
     run_python_module("GenEHR", "GenEHR")
 
 if __name__ == "__main__":
