@@ -4,6 +4,8 @@ import whisper
 import os
 from transformers import pipeline
 import assemblyai as aai
+import soundfile as sf
+import nemo.collections.asr as nemo_asr  # Import NeMo ASR
 
 def transcribe(file, language, model_size, model_type, quantization, custom_model_path, hf_model_path, aai_api_key):
     res = ""
@@ -96,8 +98,21 @@ def transcribe(file, language, model_size, model_type, quantization, custom_mode
                     return res
             except Exception as err:
                 raise Exception(f"an error occured while transcribing: {err}")
+        elif model_type == "nemo":  # NeMo transcription logic
+            try:
+                # Load pre-trained ASR model from NeMo
+                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                model = nemo_asr.models.EncDecCTCModel.restore_from(restore_path='checkpoint.nemo')
+                model.freeze() # inference mode
+                model = model.to(device) # transfer model to device
+
+
+                # Transcribe audio
+                res = model.transcribe([file], batch_size=1,logprobs=False, language_id='ta')[0]  # Returns a list of transcriptions
+                return res
+            except Exception as err:
+                raise Exception(f"an error occurred while transcribing with NeMo: {err}")
         else:
             raise Exception(f"model_type {model_type} is not supported")
     else:
         raise Exception("only 'base', 'tiny', 'small', 'medium', 'large', 'large-v1', 'large-v2', 'large-v3' models are available.")
-
