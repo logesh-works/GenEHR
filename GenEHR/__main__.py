@@ -11,10 +11,13 @@ ACCESS_TOKEN = "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"
 
 transcriptor = Transcriptor(file, log_folder, language, modelSize, ACCESS_TOKEN, voices_folder, quantization)
 
+print("Running Nemo")
+res = transcriptor.nemo()
 
-print("running whisper....")
+
+""" print("running whisper....")
 res = transcriptor.whisper()
 
 
 print("running faster-whisper....")
-res = transcriptor.faster_whisper()
+res = transcriptor.faster_whisper() """
