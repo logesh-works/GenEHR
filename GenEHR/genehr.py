@@ -242,6 +242,10 @@ class Transcriptor:
         res = core_analysis(self.file, self.voices_folder, self.log_folder, self.language, self.modelSize, self.ACCESS_TOKEN, "whisper", self.quantization)
         return res
     
+    def nemo(self):
+        res = core_analysis(self.file, self.voices_folder, self.log_folder, self.language, self.modelSize, self.ACCESS_TOKEN, "nemo", self.quantization)
+        return res
+    
     def faster_whisper(self):
         res = core_analysis(self.file, self.voices_folder, self.log_folder, self.language, self.modelSize, self.ACCESS_TOKEN, "faster-whisper", self.quantization)
         return res
