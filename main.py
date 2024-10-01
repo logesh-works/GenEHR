@@ -38,9 +38,6 @@ def download_file(url, output_path):
     except Exception as e:
         print(f"Error downloading {output_path}: {e}")
 
-def run_python_module(module, cwd):
-    """Run a Python module from a given directory."""
-    run_command(["python", "-m", module], shell=True)
 
 def create_voices_directory():
     """Create a 'voices' directory if it doesn't exist."""
@@ -79,8 +76,7 @@ def main():
     # Step 6: Download the checkpoint.nemo file
     download_file("https://objectstore.e2enetworks.net/indic-asr-public/indicConformer/ai4b_indicConformer_ta.nemo", "checkpoint.nemo")
 
-    # Step 7: Run the GenEHR Python module
-    run_python_module("GenEHR", "GenEHR")
+    print("Done")
 
 if __name__ == "__main__":
     main()
