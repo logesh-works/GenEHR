@@ -13,11 +13,3 @@ transcriptor = Transcriptor(file, log_folder, language, modelSize, ACCESS_TOKEN,
 
 print("Running Nemo")
 res = transcriptor.nemo()
-
-
-""" print("running whisper....")
-res = transcriptor.whisper()
-
-
-print("running faster-whisper....")
-res = transcriptor.faster_whisper() """

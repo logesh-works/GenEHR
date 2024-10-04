@@ -1,3 +1,16 @@
+def transcribe(file,model):
+    res = ""  # NeMo transcription logic
+    try:
+        res = model.transcribe([file], batch_size=1,logprobs=False, language_id='ta')[0]  # Returns a list of transcriptions
+        return res
+    except Exception as err:
+        raise Exception(f"an error occurred while transcribing with NeMo: {err}")
+   
+
+
+
+"""
+----------------------------------------------------------------------------
 import torch
 from faster_whisper import WhisperModel
 import whisper
@@ -116,3 +129,5 @@ def transcribe(file, language, model_size, model_type, quantization, custom_mode
             raise Exception(f"model_type {model_type} is not supported")
     else:
         raise Exception("only 'base', 'tiny', 'small', 'medium', 'large', 'large-v1', 'large-v2', 'large-v3' models are available.")
+
+"""
