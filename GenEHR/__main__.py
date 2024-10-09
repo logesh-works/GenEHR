@@ -1,7 +1,7 @@
 from GenEHR.genehr import Transcriptor
 
 file = "obama_zach.wav" 
-voices_folder = "voices" 
+voices_folder = "/content/GenEHR/voices" 
 language = "ta"         
 log_folder = "logs"    
 modelSize = "large-v2"    

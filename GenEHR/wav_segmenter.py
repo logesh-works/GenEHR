@@ -5,7 +5,7 @@ import nemo.collections.asr as nemo_asr
 import torch
 # segment according to speaker
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = nemo_asr.models.EncDecCTCModel.restore_from(restore_path='checkpoint.nemo')
+model = nemo_asr.models.EncDecCTCModel.restore_from(restore_path='/content/GenEHR/checkpoint.nemo')
 model.freeze() # inference mode
 model = model.to(device) # transfer model to device
 def wav_file_segmentation(file_name, segments, language, modelSize, model_type, quantization, custom_model_path, hf_model_path, aai_api_key):
