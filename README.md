@@ -15,24 +15,8 @@ There are multiple ways to install these libraries. The recommended way is descr
 
 ### Google Colab:
 
-on google colab run this to install CUDA dependencies:
-```
-!apt install libcublas11
-```
+[Click Here To Run it in Colab](https://colab.research.google.com/drive/1O_CxQF-V7YRbD26zF3lT2aR_-vKLswfD?usp=sharing)
 
-
-### installation:
-```
-!apt install libcublas11
-```
-```
-pip install -r requirments.txt
-```
-### To Run:
-
-```
-python -m GenEHR
-```
 
  Does speaker diarization, speaker recognition, and transcription on a single wav file to provide a transcript with actual speaker names. This library will also return an array containing result information. ⚙ 
 
