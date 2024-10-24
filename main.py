@@ -58,11 +58,11 @@ def main():
     install_requirements("requirements.txt")
 
     # Step 5: Clone NeMo repository, checkout the nemo-v2 branch, and run reinstall.sh
-    clone_repo("https://github.com/AI4Bharat/NeMo.git", "NeMo")
+    clone_repo("https://github.com/logesh-works/NeMo.git", "NeMo")
     
-    # Change directory to NeMo, checkout nemo-v2 branch and run reinstall.sh
+    # Change directory to NeMo, checkout master branch and run reinstall.sh
     os.chdir("NeMo")
-    run_command(["git", "checkout", "nemo-v2"])
+    run_command(["git", "checkout", "master"])
     
     # Check platform and use shell command if bash is required
     if platform.system() == "Windows":
@@ -74,7 +74,7 @@ def main():
     os.chdir("..")  # Return to the original directory
 
     # Step 6: Download the checkpoint.nemo file
-    download_file("https://objectstore.e2enetworks.net/indic-asr-public/indicConformer/ai4b_indicConformer_ta.nemo", "checkpoint.nemo")
+    download_file("https://huggingface.co/logeshkg/NeMo/resolve/main/checkpoint.nemo?download=true", "checkpoint.nemo")
 
     print("Done")
 
