@@ -13,7 +13,7 @@ from .convert_to_wav import (convert_to_wav)
 
 # by default use google speech-to-text API
 # if False, then use whisper finetuned version for sinhala
-def core_analysis(file_name, voices_folder, log_folder, language, modelSize, ACCESS_TOKEN, model_type, quantization=False, custom_model_path=None, hf_model_id=None, aai_api_key=None):
+def core_analysis(patient_name,patient_age,dialog_audio,file_name, voices_folder, log_folder, language, modelSize, ACCESS_TOKEN, model_type, quantization=False, custom_model_path=None, hf_model_id=None, aai_api_key=None):
 
     # <-------------------PreProcessing file-------------------------->
 
@@ -134,6 +134,6 @@ def core_analysis(file_name, voices_folder, log_folder, language, modelSize, ACC
                         common_segments.append([start, end, segment[2], speaker])
 
     # writing log file
-    write_log_file(common_segments, log_folder, file_name, language)  
+    return write_log_file(patient_name,patient_age,dialog_audio,common_segments, log_folder, file_name, language)  
 
-    return common_segments
+    

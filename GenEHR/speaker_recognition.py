@@ -74,7 +74,7 @@ def speaker_recognition(file_name, voices_folder, segments, wildcards):
         current_pred = max(Id_count, key=Id_count.get)
 
         duration += (end - start)
-        if duration >= limit and current_pred != "unknown":
+        if duration >= limit and current_pred != "Patient":
             break
     
     most_common_Id = max(Id_count, key=Id_count.get)

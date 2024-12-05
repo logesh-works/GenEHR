@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenEHR Pro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #processingSpinner {
+            display: none;
+        }
+        #resultSection {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">GenEHR Prototype</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/doctor">Doctor</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Form Section -->
+                <div id="formSection">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="uploadForm" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="patientName">Patient Name</label>
+                                    <input type="text" class="form-control" id="patientName" name="patient_name" placeholder="Enter patient name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="patientAge">Patient Age</label>
+                                    <input type="number" class="form-control" id="patientAge" name="patient_age" placeholder="Enter patient age" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="audioRecord" id="recorda">Record</label>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="btn btn-primary" id="startRecord">Start</button>
+                                        <button type="button" class="btn btn-secondary" id="pauseRecord">Pause</button>
+                                        <button type="button" class="btn btn-secondary" id="resumeRecord">Resume</button>
+                                        <button type="button" class="btn btn-danger" id="stopRecord">Stop</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="audioPlayback">Audio Playback</label><br>
+                                    <audio id="audioPlayback" controls></audio>
+                                    <input type="file" id="audioFile" name="file" hidden>
+                                </div>
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Spinner -->
+                <div id="processingSpinner" class="text-center mt-5">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Processing...</span>
+                    </div>
+                    <p class="mt-3">Processing, please wait...</p>
+                </div>
+
+                <!-- Result Section -->
+                <div id="resultSection" class="mt-5" style="position: relative;top: 0;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Result</h3>
+                            <div id="resultContent"></div>
+                            <button class="btn btn-primary mt-3" id="backButton" onclick="window.print();
+">Print the result</button>
+                            <button class="btn btn-primary mt-3" id="backButton" onclick="window.location.reload();
+">Go Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        const audioFileInput = document.getElementById("audioFile");
+
+        document.getElementById("startRecord").addEventListener("click", async () => {
+             document.getElementById('recorda').innerText = "Recording..."
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+            mediaRecorder.addEventListener("dataavailable", (event) => {
+                audioChunks.push(event.data);
+            });
+            mediaRecorder.addEventListener("stop", () => {
+                document.getElementById('recorda').innerText = "Recording Stoped"
+    const audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
+    const file = new File([audioBlob], "recording.mp3", { type: "audio/mp3" });
+
+    // Use DataTransfer to assign the file to the input
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    audioFileInput.files = dataTransfer.files;
+
+    // Set the audio playback source
+    const audioUrl = URL.createObjectURL(audioBlob);
+    document.getElementById("audioPlayback").src = audioUrl;
+});
+
+        });
+
+        document.getElementById("stopRecord").addEventListener("click", () => {
+            if (mediaRecorder) {
+                mediaRecorder.stop();
+            }
+        });
+
+        document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Show spinner and hide form
+    document.getElementById("formSection").style.display = "none";
+    document.getElementById("processingSpinner").style.display = "block";
+
+    const formData = new FormData(e.target);
+
+    try {
+        const response = await fetch("/upload", {
+            method: "POST",
+            body: formData,
+        });
+        const result = await response.json();
+
+        // Hide spinner and show result
+        document.getElementById("processingSpinner").style.display = "none";
+        document.getElementById("resultSection").style.display = "block";
+
+        // Format resultContent to replace \n with <br>
+        if (typeof result['result'] === "string") {
+    const formattedResult = result['result'].replace(/\n/g, "<br>");
+    document.getElementById("resultContent").innerHTML = formattedResult;
+} else {
+    document.getElementById("resultContent").innerText = JSON.stringify(result, null, 2);
+}
+    } catch (err) {
+        alert("Error: " + err.message);
+        document.getElementById("formSection").style.display = "block";
+        document.getElementById("processingSpinner").style.display = "none";
+    }
+});
+    </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
