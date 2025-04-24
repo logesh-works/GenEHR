@@ -1,0 +1,23 @@
+Patient Name: Test  1 
+Patient Age: 24
+Date and time : 2024-12-04 15:38:08.529574
+    
+conversation: 
+    
+    unknown (0.4 : 0.9) : [' ஸ்டார்ட்']
+unknown (3.4 : 6.4) : [' அட் டைமில் ரெண்டு மைக்ரோ ஃபோன் இது யூஸ் பண்ணதுில் அ வச்சு']
+dr_Logesh (9.3 : 9.9) : [' மச்ச']
+
+Summarized Points:
+    
+Here is the summary:
+
+**Symptoms:** None mentioned explicitly.
+
+**Diagnosis:** Not mentioned.
+
+**Treatment:** Not mentioned.
+
+Result:
+No symptoms, no diagnosis.
+    

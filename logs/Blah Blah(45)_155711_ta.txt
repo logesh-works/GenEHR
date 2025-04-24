@@ -1,0 +1,18 @@
+Patient Name: Blah Blah
+Patient Age: 45
+Date and time : 2024-12-04 15:57:11.925039
+    
+conversation: 
+    
+    unknown (0.0 : 0.1) : [' ச']
+unknown (1.4 : 5.4) : [' ஓகே கீப் டாக்கிங் லேட்டஸி வாட்ிட் கேன் பயன்']
+unknown (6.5 : 10.2) : [' இப்போ இது என்னா இததுிலயே ரெக்கார்ட் பண்ணுமா பிரௌ ரெக்கார்ட் பண்ணுமா']
+unknown (6.6 : 6.7) : [' ச']
+unknown (13.7 : 18.2) : [' என் பரௌசர்ில் அவமான்ு தெரில சரி ஓகே அபின் ட்ரை']
+
+Summarized Points:
+    
+I apologize, but the conversation appears to be in a language other than English (likely Tamil). As a result, I am unable to extract symptoms, diagnosis, and treatment explicitly mentioned.
+
+Please provide a new conversation or information in English for me to summarize.
+    
